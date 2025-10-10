@@ -1,0 +1,686 @@
+
+
+# ===== .\bot.py =====
+
+﻿# bot.py
+import asyncio
+import logging
+from aiogram import Bot, Dispatcher
+from aiogram.fsm.storage.memory import MemoryStorage
+from config import BOT_TOKEN
+from handlers import start, upload, playlists, artist
+
+logging.basicConfig(level=logging.INFO)
+
+async def main():
+    bot = Bot(token=BOT_TOKEN)
+    storage = MemoryStorage()
+    dp = Dispatcher(storage=storage)
+
+    dp.include_router(start.router)
+    dp.include_router(upload.router)
+    dp.include_router(playlists.router)
+    dp.include_router(artist.router)
+
+    print("🚀 Бот запущен...")
+    await dp.start_polling(bot)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+
+
+# ===== .\collect_code.py =====
+
+﻿import os
+
+def collect_code(output_file="bot_code.txt"):
+    with open(output_file, "w", encoding="utf-8") as out:
+        for root, _, files in os.walk("."):
+            for file in files:
+                if file.endswith(".py"):
+                    path = os.path.join(root, file)
+                    out.write(f"\n\n# ===== {path} =====\n\n")
+                    with open(path, "r", encoding="utf-8") as f:
+                        out.write(f.read())
+    print(f"✅ Код всех файлов сохранён в {output_file}")
+
+if __name__ == "__main__":
+    collect_code()
+
+
+# ===== .\config.py =====
+
+# config.py
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+STORAGE_CHAT_ID = int(os.getenv("STORAGE_CHAT_ID")) if os.getenv("STORAGE_CHAT_ID") else None
+BOT_VERSION = os.getenv("BOT_VERSION", "v1.1")
+
+
+# ===== .\database.py =====
+
+﻿# database.py
+import sqlite3
+
+class Database:
+    def __init__(self, path="database.db"):
+        self.conn = sqlite3.connect(path, check_same_thread=False)
+        self.cur = self.conn.cursor()
+        self._create_tables()
+        self._ensure_columns()
+
+    def _create_tables(self):
+        self.cur.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                telegram_id INTEGER UNIQUE,
+                name TEXT
+            )
+        ''')
+        self.cur.execute('''
+            CREATE TABLE IF NOT EXISTS artists (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER,
+                name TEXT
+            )
+        ''')
+        self.cur.execute('''
+            CREATE TABLE IF NOT EXISTS tracks (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER,
+                artist_id INTEGER,
+                title TEXT,
+                performer TEXT,
+                file_id TEXT,
+                storage_message_id INTEGER,
+                is_common INTEGER DEFAULT 0,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        self.cur.execute('''
+            CREATE TABLE IF NOT EXISTS notifications (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER,
+                message TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        self.conn.commit()
+
+    def _ensure_columns(self):
+        try:
+            self.cur.execute("PRAGMA table_info(tracks)")
+            cols = [r[1] for r in self.cur.fetchall()]
+            if "artist_id" not in cols:
+                try:
+                    self.cur.execute("ALTER TABLE tracks ADD COLUMN artist_id INTEGER")
+                except Exception:
+                    pass
+            if "storage_message_id" not in cols:
+                try:
+                    self.cur.execute("ALTER TABLE tracks ADD COLUMN storage_message_id INTEGER")
+                except Exception:
+                    pass
+            self.conn.commit()
+        except Exception:
+            pass
+
+    # users
+    def add_user(self, telegram_id, name):
+        self.cur.execute("INSERT OR IGNORE INTO users (telegram_id, name) VALUES (?, ?)", (telegram_id, name))
+        self.conn.commit()
+
+    def get_user(self, telegram_id):
+        self.cur.execute("SELECT * FROM users WHERE telegram_id = ?", (telegram_id,))
+        return self.cur.fetchone()
+
+    def get_all_users(self):
+        self.cur.execute("SELECT telegram_id FROM users")
+        return [row[0] for row in self.cur.fetchall()]
+
+    # artists
+    def add_artist(self, user_id, name):
+        self.cur.execute("INSERT INTO artists (user_id, name) VALUES (?, ?)", (user_id, name))
+        self.conn.commit()
+        return self.cur.lastrowid
+
+    def get_all_artists(self):
+        self.cur.execute("SELECT id, user_id, name FROM artists ORDER BY name ASC")
+        return self.cur.fetchall()
+
+    def get_artist(self, artist_id):
+        self.cur.execute("SELECT id, user_id, name FROM artists WHERE id = ?", (artist_id,))
+        return self.cur.fetchone()
+
+    def get_user_artists(self, user_id):
+        self.cur.execute("SELECT id, name FROM artists WHERE user_id = ?", (user_id,))
+        return self.cur.fetchall()
+
+    def delete_artist(self, artist_id, user_id):
+        self.cur.execute("DELETE FROM artists WHERE id = ? AND user_id = ?", (artist_id, user_id))
+        self.conn.commit()
+
+    def get_or_create_first_artist(self, user_id, username_fallback):
+        artists = self.get_user_artists(user_id)
+        if artists:
+            return artists[0][0], artists[0][1]
+        name = (username_fallback or f"artist_{user_id}")[:128]
+        aid = self.add_artist(user_id, name)
+        return aid, name
+
+    # tracks
+    def add_user_track(self, user_id, file_id, title, performer, artist_id=None, storage_message_id=None):
+        self.cur.execute("""
+            INSERT INTO tracks (user_id, artist_id, title, performer, file_id, storage_message_id, is_common)
+            VALUES (?, ?, ?, ?, ?, ?, 0)
+        """, (user_id, artist_id, title, performer, file_id, storage_message_id))
+        self.conn.commit()
+        return self.cur.lastrowid
+
+    def add_common_track(self, user_id, file_id, title, performer, artist_id=None, storage_message_id=None):
+        self.cur.execute("""
+            INSERT INTO tracks (user_id, artist_id, title, performer, file_id, storage_message_id, is_common)
+            VALUES (?, ?, ?, ?, ?, ?, 1)
+        """, (user_id, artist_id, title, performer, file_id, storage_message_id))
+        self.conn.commit()
+        return self.cur.lastrowid
+
+    def get_user_tracks(self, user_id):
+        self.cur.execute("SELECT * FROM tracks WHERE user_id = ? ORDER BY created_at DESC", (user_id,))
+        return self.cur.fetchall()
+
+    def get_common_tracks(self):
+        self.cur.execute("SELECT * FROM tracks WHERE is_common = 1 ORDER BY created_at DESC")
+        return self.cur.fetchall()
+
+    def get_track(self, track_id):
+        self.cur.execute("SELECT * FROM tracks WHERE id = ?", (track_id,))
+        return self.cur.fetchone()
+
+    def delete_track(self, track_id):
+        self.cur.execute("DELETE FROM tracks WHERE id = ?", (track_id,))
+        self.conn.commit()
+
+    # notifications (utility)
+    def add_notification(self, user_id, message):
+        self.cur.execute("INSERT INTO notifications (user_id, message) VALUES (?, ?)", (user_id, message))
+        self.conn.commit()
+
+
+# ===== .\db_instance.py =====
+
+# db_instance.py
+from database import Database
+db = Database()
+
+
+# ===== .\keyboards.py =====
+
+﻿# keyboards.py
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+
+def main_menu():
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="🎧 Мой каталог", callback_data="my_catalog")],
+        [InlineKeyboardButton(text="🌍 Общий плейлист", callback_data="common_playlist")],
+        [InlineKeyboardButton(text="🎤 Мои карточки артиста", callback_data="my_artist")],
+        [InlineKeyboardButton(text="➕ Добавить трек", callback_data="add_track")],
+        [InlineKeyboardButton(text="ℹ️ О боте", callback_data="about_bot")]
+    ])
+
+def track_save_menu():
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="💾 Личный каталог", callback_data="save_personal")],
+        [InlineKeyboardButton(text="🌍 Общий плейлист", callback_data="save_common")],
+        [InlineKeyboardButton(text="❌ Отмена", callback_data="cancel_upload")]
+    ])
+
+
+# ===== .\handlers\artist.py =====
+
+﻿# handlers/artist.py
+from aiogram import Router, F
+from aiogram.types import CallbackQuery, Message, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.fsm.state import StatesGroup, State
+from aiogram.fsm.context import FSMContext
+from db_instance import db
+from keyboards import main_menu
+
+router = Router()
+
+class ArtistForm(StatesGroup):
+    waiting_for_name = State()
+
+@router.callback_query(lambda c: c.data == "common_playlist")
+async def common_playlist(callback: CallbackQuery):
+    artists = db.get_all_artists()
+    if not artists:
+        return await callback.message.edit_text("🌍 В общем плейлисте пока нет артистов.", reply_markup=main_menu())
+
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=a[2], callback_data=f"artist_{a[0]}")] for a in artists
+    ])
+    keyboard.inline_keyboard.append([InlineKeyboardButton(text="⬅️ Назад", callback_data="back_main")])
+    await callback.message.edit_text("🎤 Артисты:", reply_markup=keyboard)
+
+@router.callback_query(lambda c: c.data.startswith("artist_"))
+async def view_artist(callback: CallbackQuery):
+    try:
+        artist_id = int(callback.data.split("_", 1)[1])
+    except Exception:
+        await callback.answer("Неверный артист.", show_alert=True)
+        return
+    artist = db.get_artist(artist_id)
+    if not artist:
+        return await callback.message.answer("⚠️ Артист не найден.")
+
+    tracks = db.cur.execute("SELECT id, title, performer FROM tracks WHERE artist_id = ? AND is_common = 1 ORDER BY created_at DESC", (artist[0],)).fetchall()
+    text = f"🎤 *{artist[2]}*\n\n🎵 Треки:"
+    if not tracks:
+        text += "\n(У артиста пока нет треков в общем плейлисте)"
+
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=f"{t[2]} — {t[1]}", callback_data=f"play_{t[0]}")] for t in tracks
+    ])
+    keyboard.inline_keyboard.append([InlineKeyboardButton(text="⬅️ Назад", callback_data="common_playlist")])
+    await callback.message.edit_text(text, parse_mode="Markdown", reply_markup=keyboard)
+
+@router.callback_query(lambda c: c.data == "my_artist")
+async def my_artist(callback: CallbackQuery):
+    user_id = callback.from_user.id
+    artists = db.get_user_artists(user_id)
+    if not artists:
+        kb = InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="🆕 Создать карточку", callback_data="create_artist_card")],
+            [InlineKeyboardButton(text="⬅️ Назад", callback_data="back_main")]
+        ])
+        return await callback.message.edit_text("🎤 У тебя ещё нет карточек артиста.", reply_markup=kb)
+
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=a[1], callback_data=f"artist_{a[0]}")] for a in artists
+    ])
+    kb.inline_keyboard.append([InlineKeyboardButton(text="➕ Создать новую", callback_data="create_artist_card")])
+    kb.inline_keyboard.append([InlineKeyboardButton(text="⬅️ Назад", callback_data="back_main")])
+    await callback.message.edit_text("🎤 Твои карточки артистов:", reply_markup=kb)
+
+@router.callback_query(lambda c: c.data == "create_artist_card")
+async def start_artist_creation(callback: CallbackQuery, state: FSMContext):
+    await callback.message.edit_text("Введите имя нового артиста:")
+    await state.set_state(ArtistForm.waiting_for_name)
+
+@router.message(ArtistForm.waiting_for_name)
+async def process_artist_name(message: Message, state: FSMContext):
+    name = message.text.strip()
+    if not name:
+        await message.answer("Имя не может быть пустым. Введи ещё раз:")
+        return
+    db.add_artist(message.from_user.id, name)
+    await message.answer(f"✅ Карточка артиста '{name}' создана!", reply_markup=main_menu())
+    await state.clear()
+
+
+# ===== .\handlers\playlists.py =====
+
+﻿# handlers/playlists.py
+from aiogram import Router
+from aiogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
+from db_instance import db
+from keyboards import main_menu
+
+router = Router()
+
+@router.callback_query(lambda c: c.data == "my_catalog")
+async def my_catalog(callback: CallbackQuery):
+    user_id = callback.from_user.id
+    tracks = db.get_user_tracks(user_id)
+    if not tracks:
+        return await callback.message.edit_text("📭 В твоём каталоге пока нет треков.", reply_markup=main_menu())
+
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=f"{t[4] or 'NoName'} — {t[3] or 'NoArtist'}", callback_data=f"play_{t[0]}")] for t in tracks
+    ])
+    kb.inline_keyboard.append([InlineKeyboardButton(text="⬅️ Назад", callback_data="back_main")])
+    await callback.message.edit_text("🎧 Твои треки:", reply_markup=kb)
+
+@router.callback_query()
+async def debug_callback(callback: CallbackQuery):
+    print("Callback data:", callback.data)
+
+
+# ===== .\handlers\start.py =====
+
+﻿# handlers/start.py
+from aiogram import Router, F, Bot
+from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.filters import Command
+from keyboards import main_menu
+from db_instance import db
+from config import STORAGE_CHAT_ID
+
+
+router = Router()
+
+@router.message(Command("start"))
+async def cmd_start(message: Message):
+    db.add_user(message.from_user.id, message.from_user.full_name or message.from_user.first_name)
+    await message.answer(
+        f"👋 Привет, {message.from_user.first_name}!\nДобро пожаловать в GarageLib.\n\n📦 Версия бота: *{db.get_user(message.from_user.id) and 'v1.1' or 'v1.1'}*",
+        reply_markup=main_menu(),
+        parse_mode="Markdown"
+    )
+
+@router.callback_query(F.data == "about_bot")
+async def about_bot(callback: CallbackQuery):
+    text = (
+        "🤖 GarageLib Bot v1.1\n\n"
+        "Бот для артистов: загружай демо, управляй личным каталогом и делись треками в общем плейлисте.\n\n"
+        "Функции:\n• Личный каталог\n• Общий плейлист с карточками артистов\n• Уведомления при добавлении трека в общий плейлист\n"
+    )
+    try:
+        await callback.message.edit_text(text, reply_markup=main_menu())
+    except Exception:
+        await callback.message.answer(text, reply_markup=main_menu())
+
+@router.callback_query(F.data == "back_main")
+async def back_main(callback: CallbackQuery):
+    try:
+        await callback.message.edit_text("🏠 Главное меню:", reply_markup=main_menu())
+    except Exception:
+        await callback.message.answer("🏠 Главное меню:", reply_markup=main_menu())
+
+router.callback_query(F.data.startswith("play_"))
+async def play_track(callback: CallbackQuery):
+    try:
+        tid = int(callback.data.split("_", 1)[1])
+    except Exception:
+        await callback.answer("Неверный трек.", show_alert=True)
+        return
+
+    track = db.get_track(tid)
+    if not track:
+        await callback.answer("⚠️ Трек не найден.", show_alert=True)
+        return
+
+    title = track[3] or "Без названия"
+    performer = track[4] or "Неизвестен"
+
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="🎧 Послушать", callback_data=f"listen_{tid}")],
+        [InlineKeyboardButton(text="🗑 Удалить", callback_data=f"delete_{tid}")],
+        [InlineKeyboardButton(text="⬅️ Назад", callback_data="back_main")]
+    ])
+
+    text = f"🎵 {performer} — {title}"
+    try:
+        await callback.message.edit_text(text, reply_markup=kb)
+    except Exception:
+        await callback.message.answer(text, reply_markup=kb)
+
+
+@router.callback_query(F.data.startswith("listen_"))
+async def listen_track(callback: CallbackQuery):
+    try:
+        tid = int(callback.data.split("_", 1)[1])
+    except Exception:
+        await callback.answer("Неверный трек.", show_alert=True)
+        return
+
+    track = db.get_track(tid)
+    if not track:
+        await callback.answer("⚠️ Трек не найден.", show_alert=True)
+        return
+
+    file_id = track[5]  # file_id в БД
+    title = track[3] or "Без названия"
+    performer = track[4] or "Неизвестен"
+    try:
+        await callback.message.answer_audio(audio=file_id, caption=f"{performer} — {title}")
+    except Exception:
+        await callback.answer("Не удалось отправить трек.", show_alert=True)
+
+
+@router.callback_query(F.data.startswith("delete_"))
+async def delete_track(callback: CallbackQuery, bot: Bot):
+    try:
+        tid = int(callback.data.split("_", 1)[1])
+    except Exception:
+        await callback.answer("Неверный трек.", show_alert=True)
+        return
+
+    track = db.get_track(tid)
+    if not track:
+        await callback.answer("⚠️ Трек не найден.", show_alert=True)
+        return
+
+    owner_id = track[1]  # user_id владельца
+    if callback.from_user.id != owner_id:
+        await callback.answer("🚫 Ты не можешь удалить чужой трек.", show_alert=True)
+        return
+
+    # Попытаться удалить из канала-хранилища (если есть message_id)
+    storage_msg_id = track[6]  # storage_message_id
+    if storage_msg_id:
+        try:
+            await bot.delete_message(chat_id=STORAGE_CHAT_ID, message_id=storage_msg_id)
+        except Exception:
+            pass
+
+    # Удаляем запись из БД
+    db.delete_track(tid)
+
+    try:
+        await callback.message.edit_text("🗑 Трек удалён.", reply_markup=main_menu())
+    except Exception:
+        await callback.message.answer("🗑 Трек удалён.", reply_markup=main_menu())
+
+
+# ===== .\handlers\upload.py =====
+
+﻿from aiogram import Router, F, Bot
+from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import StatesGroup, State
+from keyboards import track_save_menu, main_menu
+from config import STORAGE_CHAT_ID
+from db_instance import db
+import asyncio
+
+router = Router()
+
+
+class UploadForm(StatesGroup):
+    waiting_for_audio = State()
+    waiting_for_meta_edit = State()
+
+
+async def safe_edit_or_answer(message_obj, text, reply_markup=None, parse_mode=None):
+    """Безопасное редактирование или ответ (чтобы не падал при одинаковом тексте)."""
+    try:
+        await message_obj.edit_text(text, reply_markup=reply_markup, parse_mode=parse_mode)
+    except Exception:
+        try:
+            await message_obj.answer(text, reply_markup=reply_markup, parse_mode=parse_mode)
+        except Exception:
+            pass
+
+
+# === Шаг 1. Пользователь нажал “Добавить трек” ===
+@router.callback_query(F.data == "add_track")
+async def add_track_menu(callback: CallbackQuery, state: FSMContext):
+    db.add_user(callback.from_user.id, callback.from_user.full_name or callback.from_user.first_name)
+    await callback.message.answer("🎵 Отправь мне аудиофайл (mp3/ogg), чтобы добавить его.")
+    await state.clear()
+    await state.set_state(UploadForm.waiting_for_audio)
+
+
+# === Шаг 2. Пользователь отправил аудиофайл ===
+@router.message(F.audio)
+async def on_audio(message: Message, state: FSMContext):
+    audio = message.audio
+    user_id = message.from_user.id
+
+    db.add_user(user_id, message.from_user.full_name or message.from_user.first_name)
+
+    title = audio.title or "Без названия"
+    performer = audio.performer or (message.from_user.full_name or message.from_user.first_name)
+
+    await state.update_data(file_id=audio.file_id, title=title, performer=performer)
+    await message.answer(
+        f"📀 Трек: *{title}*\nИсполнитель: *{performer}*\n\nКуда сохранить?",
+        reply_markup=track_save_menu(),
+        parse_mode="Markdown"
+    )
+    await state.set_state(UploadForm.waiting_for_meta_edit)
+
+
+# === Отмена ===
+@router.callback_query(F.data == "cancel_upload")
+async def cancel_upload(callback: CallbackQuery, state: FSMContext):
+    await state.clear()
+    await safe_edit_or_answer(callback.message, "❌ Отменено. Возвращаю в главное меню.", reply_markup=main_menu())
+
+
+# === Шаг 3. Сохранение трека ===
+@router.callback_query(F.data.in_(["save_personal", "save_common"]))
+async def save_track(callback: CallbackQuery, state: FSMContext, bot: Bot):
+    data = await state.get_data()
+    file_id = data.get("file_id")
+    title = data.get("title") or "Без названия"
+    performer = data.get("performer") or (callback.from_user.full_name or callback.from_user.first_name)
+    user_id = callback.from_user.id
+
+    if not file_id:
+        await safe_edit_or_answer(callback.message, "⚠️ Ошибка: файл не найден в сессии.", reply_markup=main_menu())
+        await state.clear()
+        return
+
+    # === Сохранение в личный каталог ===
+    if callback.data == "save_personal":
+        storage_msg_id = None
+        saved_file_id = file_id
+        try:
+            sent = await bot.send_audio(chat_id=STORAGE_CHAT_ID, audio=file_id, caption=f"{performer} — {title}")
+            if hasattr(sent, "audio") and getattr(sent.audio, "file_id", None):
+                saved_file_id = sent.audio.file_id
+            storage_msg_id = sent.message_id
+        except Exception as e:
+            print(f"[storage send error personal] {e}")
+
+        db.add_user_track(user_id=user_id, file_id=saved_file_id, title=title, performer=performer,
+                          artist_id=None, storage_message_id=storage_msg_id)
+
+        await safe_edit_or_answer(callback.message, f"✅ Трек «{title}» сохранён в личном каталоге.", reply_markup=main_menu())
+        await state.clear()
+        return
+
+    # === Сохранение в общий плейлист ===
+    user_artists = db.get_user_artists(user_id)
+    if not user_artists:
+        artist_id, artist_name = db.get_or_create_first_artist(user_id, performer)
+        chosen_artist_id = artist_id
+        chosen_artist_name = artist_name
+    elif len(user_artists) == 1:
+        chosen_artist_id = user_artists[0][0]
+        chosen_artist_name = user_artists[0][1]
+    else:
+        kb = InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text=a[1], callback_data=f"choose_artist_{a[0]}")] for a in user_artists
+        ])
+        kb.inline_keyboard.append([InlineKeyboardButton(text="➕ Создать новую", callback_data="create_artist_card")])
+        kb.inline_keyboard.append([InlineKeyboardButton(text="❌ Отмена", callback_data="cancel_upload")])
+        await callback.message.answer("У тебя несколько карточек. Выбери, под какой опубликовать трек:", reply_markup=kb)
+        await state.update_data(pending_save="save_common")
+        return
+
+    storage_msg_id = None
+    saved_file_id = file_id
+    try:
+        sent = await bot.send_audio(chat_id=STORAGE_CHAT_ID, audio=file_id, caption=f"{chosen_artist_name} — {title}")
+        if hasattr(sent, "audio") and getattr(sent.audio, "file_id", None):
+            saved_file_id = sent.audio.file_id
+        storage_msg_id = sent.message_id
+    except Exception as e:
+        print(f"[storage send error common] {e}")
+
+    db.add_common_track(user_id=user_id, file_id=saved_file_id, title=title, performer=chosen_artist_name,
+                        artist_id=chosen_artist_id, storage_message_id=storage_msg_id)
+
+    # Рассылка уведомлений
+    users = db.get_all_users()
+    note = f"🎵 {chosen_artist_name} выложил новый трек: «{title}»"
+    for uid in users:
+        if uid == user_id:
+            continue
+        try:
+            await bot.send_message(uid, note)
+            await asyncio.sleep(0.03)
+        except Exception:
+            pass
+
+    await safe_edit_or_answer(callback.message, f"🌍 Трек «{title}» добавлен в общий плейлист от «{chosen_artist_name}».",
+                              reply_markup=main_menu())
+    await state.clear()
+
+
+# === Выбор артиста (если у пользователя несколько карточек) ===
+@router.callback_query(F.data.startswith("choose_artist_"))
+async def choose_artist(callback: CallbackQuery, state: FSMContext, bot: Bot):
+    try:
+        artist_id = int(callback.data.split("_", 2)[2])
+    except Exception:
+        await callback.answer("Неверный выбор.", show_alert=True)
+        return
+
+    data = await state.get_data()
+    pending = data.get("pending_save")
+    if pending != "save_common":
+        await callback.answer("Нет ожидаемой операции.", show_alert=True)
+        return
+
+    file_id = data.get("file_id")
+    title = data.get("title") or "Без названия"
+    user_id = callback.from_user.id
+
+    artist = db.get_artist(artist_id)
+    if not artist:
+        await callback.answer("Карточка не найдена.", show_alert=True)
+        await state.clear()
+        return
+
+    artist_name = artist[2]
+    storage_msg_id = None
+    saved_file_id = file_id
+    try:
+        sent = await bot.send_audio(chat_id=STORAGE_CHAT_ID, audio=file_id, caption=f"{artist_name} — {title}")
+        if hasattr(sent, "audio") and getattr(sent.audio, "file_id", None):
+            saved_file_id = sent.audio.file_id
+        storage_msg_id = sent.message_id
+    except Exception as e:
+        print(f"[storage send error choose_artist] {e}")
+
+    db.add_common_track(user_id=user_id, file_id=saved_file_id, title=title, performer=artist_name,
+                        artist_id=artist_id, storage_message_id=storage_msg_id)
+
+    users = db.get_all_users()
+    note = f"🎵 {artist_name} выложил новый трек: «{title}»"
+    for uid in users:
+        if uid == user_id:
+            continue
+        try:
+            await bot.send_message(uid, note)
+            await asyncio.sleep(0.03)
+        except Exception:
+            pass
+
+    await callback.message.answer(f"🌍 Трек «{title}» добавлен в общий плейлист от «{artist_name}».", reply_markup=main_menu())
+    await state.clear()
+
+
+# ===== .\handlers\__init__.py =====
+
+# handlers/__init__.py
+from . import start, upload, playlists, artist
