@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "A:\\GarageLib\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|A:\\GarageLib\\requirements.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:requirements.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|A:\\GarageLib\\Procfile||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Procfile||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|A:\\GarageLib\\.env||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:.env||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
@@ -59,10 +67,6 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:config.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|A:\\GarageLib\\Procfile||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Procfile||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|A:\\GarageLib\\requiremets.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:requiremets.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
@@ -74,27 +78,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "artist.py",
-              "DocumentMoniker": "A:\\GarageLib\\handlers\\artist.py",
-              "RelativeDocumentMoniker": "handlers\\artist.py",
-              "ToolTip": "A:\\GarageLib\\handlers\\artist.py",
-              "RelativeToolTip": "handlers\\artist.py",
-              "ViewState": "AgIAADAAAAAAAAAAAADwv08AAAAAAAAAAAAAAA==",
-              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANASURBVEhLtZVPaBxlGMZ/s7uTNazZMW3Y/BGxRFOkWsQU3VAPxoJ6KiKIItJDwTnkomhhK\u002BRg7En3losHFwlBRDx5KGgPHhQruhKaUChaiCbWuNrGtttunN3Z\u002Bb7v9TCb7GTI6HrwgZf55nln3ud9n\u002B9jBv5PiIgV51zXlTj3L3i0Uqksxclt7CkwPz8fp/fE7Oxs4Pv\u002BlSAIXq5UKtV4HiAVJ/4LHMexS6XSPtu2P3JdtxjP808C1Wo1MaIoFAqDEZEju5J7wXVd8Tyvp5ibm9tZr62t3ZiZmVl1Xfe\u002BaL3ECXpFuVymXC6zuLg4mE6nR4DD0XwmehNF3IooisXQ7lKptItfWFhYWllZ2cUlTlAsFveMqakpbNvG0xYb9TbrN1rcbBoymQyO42TjdRInSMJtz\u002Bedcz\u002Bwvnkbr\u002BmjlUKrgOF8ljMvPP3I8vKyHX0\u002BcYL4ydmO9bpif86m/OJkp3gYv27e4uzSL9np6emD0TqJAnFrtsMY4Zsff\u002BfUh99itMZoFV6VYstrMTAwcGe0TqIAgNYarTVWKsXSlS0\u002B/r7GhbU/efLQCEcPFnjq8Bh2GrRWaK0xxvDEZP1NaXwuElw7LyL7Evcgeorq\u002BQk\u002B\u002BHJ1x\u002B\u002BuNeHadO6NGPC\u002BDl9qXXqcoVNvJU4QteXcxVqny7DT7rrLGa2YGAYQ0C1oXQZ19dlEgSg2NhuYTqdGKdJiODCUY3w4z/hInvtHHZ47Os5LR34C5YFugvagXbs38WsatejdaoAKArQKuHuwn/dP\u002BPTLatgthNegBmoLjA\u002BmDdqHkdPJmxy1aCyfxXSsmDmWoz/4CtRvoGoQbID/MwS3Op03u1P03XMzUSCKYw\u002BN7mymc4fqJkwQWqE6haPr7ATYo5/2ZBFAM3\u002BA2vUGxx9uUpBPQgtMG/oOgZUFUeGHIZUD0nDXM9fIDD2WKBBHKpXCsiz6zGW4/l5Y3Pig2yAajECuCGOn3wbOA1XLsho9WQRgjEFrjZCWrtcdW/a/AkMnIdUPgGVZX1iW1SDpnxznonjj9dcuPVD47kHqn4Ui21PkJglGz7TtrPO8ZVln4\u002B/1DBFJi8irohor8tdFJVsXRNp/rItIVUROiMjx6PN/A\u002BOzH72MzdOgAAAAAElFTkSuQmCC",
-              "WhenOpened": "2025-10-10T11:26:18.501Z"
+              "DocumentIndex": 0,
+              "Title": "requirements.txt",
+              "DocumentMoniker": "A:\\GarageLib\\requirements.txt",
+              "RelativeDocumentMoniker": "requirements.txt",
+              "ToolTip": "A:\\GarageLib\\requirements.txt",
+              "RelativeToolTip": "requirements.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-10-10T23:36:11.638Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "upload.py",
               "DocumentMoniker": "A:\\GarageLib\\handlers\\upload.py",
               "RelativeDocumentMoniker": "handlers\\upload.py",
@@ -106,7 +115,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "start.py",
               "DocumentMoniker": "A:\\GarageLib\\handlers\\start.py",
               "RelativeDocumentMoniker": "handlers\\start.py",
@@ -118,7 +127,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "__init__.py",
               "DocumentMoniker": "A:\\GarageLib\\handlers\\__init__.py",
               "RelativeDocumentMoniker": "handlers\\__init__.py",
@@ -130,7 +139,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "keyboards.py",
               "DocumentMoniker": "A:\\GarageLib\\keyboards.py",
               "RelativeDocumentMoniker": "keyboards.py",
@@ -142,7 +151,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "db_instance.py",
               "DocumentMoniker": "A:\\GarageLib\\db_instance.py",
               "RelativeDocumentMoniker": "db_instance.py",
@@ -154,7 +163,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 14,
               "Title": "database.py",
               "DocumentMoniker": "A:\\GarageLib\\database.py",
               "RelativeDocumentMoniker": "database.py",
@@ -166,7 +175,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 15,
               "Title": "config.py",
               "DocumentMoniker": "A:\\GarageLib\\config.py",
               "RelativeDocumentMoniker": "config.py",
@@ -178,7 +187,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "bot.py",
               "DocumentMoniker": "A:\\GarageLib\\bot.py",
               "RelativeDocumentMoniker": "bot.py",
@@ -190,7 +199,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": ".env",
               "DocumentMoniker": "A:\\GarageLib\\.env",
               "RelativeDocumentMoniker": ".env",
@@ -198,60 +207,11 @@
               "RelativeToolTip": ".env",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-10-10T11:21:23.21Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-10T11:21:23.21Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "collect_code.py",
-              "DocumentMoniker": "A:\\GarageLib\\handlers\\collect_code.py",
-              "RelativeDocumentMoniker": "handlers\\collect_code.py",
-              "ToolTip": "A:\\GarageLib\\handlers\\collect_code.py",
-              "RelativeToolTip": "handlers\\collect_code.py",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANASURBVEhLtZVPaBxlGMZ/s7uTNazZMW3Y/BGxRFOkWsQU3VAPxoJ6KiKIItJDwTnkomhhK\u002BRg7En3losHFwlBRDx5KGgPHhQruhKaUChaiCbWuNrGtttunN3Z\u002Bb7v9TCb7GTI6HrwgZf55nln3ud9n\u002B9jBv5PiIgV51zXlTj3L3i0Uqksxclt7CkwPz8fp/fE7Oxs4Pv\u002BlSAIXq5UKtV4HiAVJ/4LHMexS6XSPtu2P3JdtxjP808C1Wo1MaIoFAqDEZEju5J7wXVd8Tyvp5ibm9tZr62t3ZiZmVl1Xfe\u002BaL3ECXpFuVymXC6zuLg4mE6nR4DD0XwmehNF3IooisXQ7lKptItfWFhYWllZ2cUlTlAsFveMqakpbNvG0xYb9TbrN1rcbBoymQyO42TjdRInSMJtz\u002Bedcz\u002Bwvnkbr\u002BmjlUKrgOF8ljMvPP3I8vKyHX0\u002BcYL4ydmO9bpif86m/OJkp3gYv27e4uzSL9np6emD0TqJAnFrtsMY4Zsff\u002BfUh99itMZoFV6VYstrMTAwcGe0TqIAgNYarTVWKsXSlS0\u002B/r7GhbU/efLQCEcPFnjq8Bh2GrRWaK0xxvDEZP1NaXwuElw7LyL7Evcgeorq\u002BQk\u002B\u002BHJ1x\u002B\u002BuNeHadO6NGPC\u002BDl9qXXqcoVNvJU4QteXcxVqny7DT7rrLGa2YGAYQ0C1oXQZ19dlEgSg2NhuYTqdGKdJiODCUY3w4z/hInvtHHZ47Os5LR34C5YFugvagXbs38WsatejdaoAKArQKuHuwn/dP\u002BPTLatgthNegBmoLjA\u002BmDdqHkdPJmxy1aCyfxXSsmDmWoz/4CtRvoGoQbID/MwS3Op03u1P03XMzUSCKYw\u002BN7mymc4fqJkwQWqE6haPr7ATYo5/2ZBFAM3\u002BA2vUGxx9uUpBPQgtMG/oOgZUFUeGHIZUD0nDXM9fIDD2WKBBHKpXCsiz6zGW4/l5Y3Pig2yAajECuCGOn3wbOA1XLsho9WQRgjEFrjZCWrtcdW/a/AkMnIdUPgGVZX1iW1SDpnxznonjj9dcuPVD47kHqn4Ui21PkJglGz7TtrPO8ZVln4\u002B/1DBFJi8irohor8tdFJVsXRNp/rItIVUROiMjx6PN/A\u002BOzH72MzdOgAAAAAElFTkSuQmCC",
-              "WhenOpened": "2025-10-10T11:41:46.04Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "collect_code.py",
-              "DocumentMoniker": "A:\\GarageLib\\collect_code.py",
-              "RelativeDocumentMoniker": "collect_code.py",
-              "ToolTip": "A:\\GarageLib\\collect_code.py",
-              "RelativeToolTip": "collect_code.py",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
-              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANASURBVEhLtZVPaBxlGMZ/s7uTNazZMW3Y/BGxRFOkWsQU3VAPxoJ6KiKIItJDwTnkomhhK\u002BRg7En3losHFwlBRDx5KGgPHhQruhKaUChaiCbWuNrGtttunN3Z\u002Bb7v9TCb7GTI6HrwgZf55nln3ud9n\u002B9jBv5PiIgV51zXlTj3L3i0Uqksxclt7CkwPz8fp/fE7Oxs4Pv\u002BlSAIXq5UKtV4HiAVJ/4LHMexS6XSPtu2P3JdtxjP808C1Wo1MaIoFAqDEZEju5J7wXVd8Tyvp5ibm9tZr62t3ZiZmVl1Xfe\u002BaL3ECXpFuVymXC6zuLg4mE6nR4DD0XwmehNF3IooisXQ7lKptItfWFhYWllZ2cUlTlAsFveMqakpbNvG0xYb9TbrN1rcbBoymQyO42TjdRInSMJtz\u002Bedcz\u002Bwvnkbr\u002BmjlUKrgOF8ljMvPP3I8vKyHX0\u002BcYL4ydmO9bpif86m/OJkp3gYv27e4uzSL9np6emD0TqJAnFrtsMY4Zsff\u002BfUh99itMZoFV6VYstrMTAwcGe0TqIAgNYarTVWKsXSlS0\u002B/r7GhbU/efLQCEcPFnjq8Bh2GrRWaK0xxvDEZP1NaXwuElw7LyL7Evcgeorq\u002BQk\u002B\u002BHJ1x\u002B\u002BuNeHadO6NGPC\u002BDl9qXXqcoVNvJU4QteXcxVqny7DT7rrLGa2YGAYQ0C1oXQZ19dlEgSg2NhuYTqdGKdJiODCUY3w4z/hInvtHHZ47Os5LR34C5YFugvagXbs38WsatejdaoAKArQKuHuwn/dP\u002BPTLatgthNegBmoLjA\u002BmDdqHkdPJmxy1aCyfxXSsmDmWoz/4CtRvoGoQbID/MwS3Op03u1P03XMzUSCKYw\u002BN7mymc4fqJkwQWqE6haPr7ATYo5/2ZBFAM3\u002BA2vUGxx9uUpBPQgtMG/oOgZUFUeGHIZUD0nDXM9fIDD2WKBBHKpXCsiz6zGW4/l5Y3Pig2yAajECuCGOn3wbOA1XLsho9WQRgjEFrjZCWrtcdW/a/AkMnIdUPgGVZX1iW1SDpnxznonjj9dcuPVD47kHqn4Ui21PkJglGz7TtrPO8ZVln4\u002B/1DBFJi8irohor8tdFJVsXRNp/rItIVUROiMjx6PN/A\u002BOzH72MzdOgAAAAAElFTkSuQmCC",
-              "WhenOpened": "2025-10-10T11:42:08.436Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "bot_code.txt",
-              "DocumentMoniker": "A:\\GarageLib\\bot_code.txt",
-              "RelativeDocumentMoniker": "bot_code.txt",
-              "ToolTip": "A:\\GarageLib\\bot_code.txt",
-              "RelativeToolTip": "bot_code.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2025-10-10T11:42:30.882Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "playlists.py",
-              "DocumentMoniker": "A:\\GarageLib\\handlers\\playlists.py",
-              "RelativeDocumentMoniker": "handlers\\playlists.py",
-              "ToolTip": "A:\\GarageLib\\handlers\\playlists.py",
-              "RelativeToolTip": "handlers\\playlists.py",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
-              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANASURBVEhLtZVPaBxlGMZ/s7uTNazZMW3Y/BGxRFOkWsQU3VAPxoJ6KiKIItJDwTnkomhhK\u002BRg7En3losHFwlBRDx5KGgPHhQruhKaUChaiCbWuNrGtttunN3Z\u002Bb7v9TCb7GTI6HrwgZf55nln3ud9n\u002B9jBv5PiIgV51zXlTj3L3i0Uqksxclt7CkwPz8fp/fE7Oxs4Pv\u002BlSAIXq5UKtV4HiAVJ/4LHMexS6XSPtu2P3JdtxjP808C1Wo1MaIoFAqDEZEju5J7wXVd8Tyvp5ibm9tZr62t3ZiZmVl1Xfe\u002BaL3ECXpFuVymXC6zuLg4mE6nR4DD0XwmehNF3IooisXQ7lKptItfWFhYWllZ2cUlTlAsFveMqakpbNvG0xYb9TbrN1rcbBoymQyO42TjdRInSMJtz\u002Bedcz\u002Bwvnkbr\u002BmjlUKrgOF8ljMvPP3I8vKyHX0\u002BcYL4ydmO9bpif86m/OJkp3gYv27e4uzSL9np6emD0TqJAnFrtsMY4Zsff\u002BfUh99itMZoFV6VYstrMTAwcGe0TqIAgNYarTVWKsXSlS0\u002B/r7GhbU/efLQCEcPFnjq8Bh2GrRWaK0xxvDEZP1NaXwuElw7LyL7Evcgeorq\u002BQk\u002B\u002BHJ1x\u002B\u002BuNeHadO6NGPC\u002BDl9qXXqcoVNvJU4QteXcxVqny7DT7rrLGa2YGAYQ0C1oXQZ19dlEgSg2NhuYTqdGKdJiODCUY3w4z/hInvtHHZ47Os5LR34C5YFugvagXbs38WsatejdaoAKArQKuHuwn/dP\u002BPTLatgthNegBmoLjA\u002BmDdqHkdPJmxy1aCyfxXSsmDmWoz/4CtRvoGoQbID/MwS3Op03u1P03XMzUSCKYw\u002BN7mymc4fqJkwQWqE6haPr7ATYo5/2ZBFAM3\u002BA2vUGxx9uUpBPQgtMG/oOgZUFUeGHIZUD0nDXM9fIDD2WKBBHKpXCsiz6zGW4/l5Y3Pig2yAajECuCGOn3wbOA1XLsho9WQRgjEFrjZCWrtcdW/a/AkMnIdUPgGVZX1iW1SDpnxznonjj9dcuPVD47kHqn4Ui21PkJglGz7TtrPO8ZVln4\u002B/1DBFJi8irohor8tdFJVsXRNp/rItIVUROiMjx6PN/A\u002BOzH72MzdOgAAAAAElFTkSuQmCC",
-              "WhenOpened": "2025-10-10T11:26:35.209Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 1,
               "Title": "Procfile",
               "DocumentMoniker": "A:\\GarageLib\\Procfile",
               "RelativeDocumentMoniker": "Procfile",
@@ -263,7 +223,67 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 11,
+              "Title": "artist.py",
+              "DocumentMoniker": "A:\\GarageLib\\handlers\\artist.py",
+              "RelativeDocumentMoniker": "handlers\\artist.py",
+              "ToolTip": "A:\\GarageLib\\handlers\\artist.py",
+              "RelativeToolTip": "handlers\\artist.py",
+              "ViewState": "AgIAADAAAAAAAAAAAADwv08AAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANASURBVEhLtZVPaBxlGMZ/s7uTNazZMW3Y/BGxRFOkWsQU3VAPxoJ6KiKIItJDwTnkomhhK\u002BRg7En3losHFwlBRDx5KGgPHhQruhKaUChaiCbWuNrGtttunN3Z\u002Bb7v9TCb7GTI6HrwgZf55nln3ud9n\u002B9jBv5PiIgV51zXlTj3L3i0Uqksxclt7CkwPz8fp/fE7Oxs4Pv\u002BlSAIXq5UKtV4HiAVJ/4LHMexS6XSPtu2P3JdtxjP808C1Wo1MaIoFAqDEZEju5J7wXVd8Tyvp5ibm9tZr62t3ZiZmVl1Xfe\u002BaL3ECXpFuVymXC6zuLg4mE6nR4DD0XwmehNF3IooisXQ7lKptItfWFhYWllZ2cUlTlAsFveMqakpbNvG0xYb9TbrN1rcbBoymQyO42TjdRInSMJtz\u002Bedcz\u002Bwvnkbr\u002BmjlUKrgOF8ljMvPP3I8vKyHX0\u002BcYL4ydmO9bpif86m/OJkp3gYv27e4uzSL9np6emD0TqJAnFrtsMY4Zsff\u002BfUh99itMZoFV6VYstrMTAwcGe0TqIAgNYarTVWKsXSlS0\u002B/r7GhbU/efLQCEcPFnjq8Bh2GrRWaK0xxvDEZP1NaXwuElw7LyL7Evcgeorq\u002BQk\u002B\u002BHJ1x\u002B\u002BuNeHadO6NGPC\u002BDl9qXXqcoVNvJU4QteXcxVqny7DT7rrLGa2YGAYQ0C1oXQZ19dlEgSg2NhuYTqdGKdJiODCUY3w4z/hInvtHHZ47Os5LR34C5YFugvagXbs38WsatejdaoAKArQKuHuwn/dP\u002BPTLatgthNegBmoLjA\u002BmDdqHkdPJmxy1aCyfxXSsmDmWoz/4CtRvoGoQbID/MwS3Op03u1P03XMzUSCKYw\u002BN7mymc4fqJkwQWqE6haPr7ATYo5/2ZBFAM3\u002BA2vUGxx9uUpBPQgtMG/oOgZUFUeGHIZUD0nDXM9fIDD2WKBBHKpXCsiz6zGW4/l5Y3Pig2yAajECuCGOn3wbOA1XLsho9WQRgjEFrjZCWrtcdW/a/AkMnIdUPgGVZX1iW1SDpnxznonjj9dcuPVD47kHqn4Ui21PkJglGz7TtrPO8ZVln4\u002B/1DBFJi8irohor8tdFJVsXRNp/rItIVUROiMjx6PN/A\u002BOzH72MzdOgAAAAAElFTkSuQmCC",
+              "WhenOpened": "2025-10-10T11:26:18.501Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "collect_code.py",
+              "DocumentMoniker": "A:\\GarageLib\\handlers\\collect_code.py",
+              "RelativeDocumentMoniker": "handlers\\collect_code.py",
+              "ToolTip": "A:\\GarageLib\\handlers\\collect_code.py",
+              "RelativeToolTip": "handlers\\collect_code.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANASURBVEhLtZVPaBxlGMZ/s7uTNazZMW3Y/BGxRFOkWsQU3VAPxoJ6KiKIItJDwTnkomhhK\u002BRg7En3losHFwlBRDx5KGgPHhQruhKaUChaiCbWuNrGtttunN3Z\u002Bb7v9TCb7GTI6HrwgZf55nln3ud9n\u002B9jBv5PiIgV51zXlTj3L3i0Uqksxclt7CkwPz8fp/fE7Oxs4Pv\u002BlSAIXq5UKtV4HiAVJ/4LHMexS6XSPtu2P3JdtxjP808C1Wo1MaIoFAqDEZEju5J7wXVd8Tyvp5ibm9tZr62t3ZiZmVl1Xfe\u002BaL3ECXpFuVymXC6zuLg4mE6nR4DD0XwmehNF3IooisXQ7lKptItfWFhYWllZ2cUlTlAsFveMqakpbNvG0xYb9TbrN1rcbBoymQyO42TjdRInSMJtz\u002Bedcz\u002Bwvnkbr\u002BmjlUKrgOF8ljMvPP3I8vKyHX0\u002BcYL4ydmO9bpif86m/OJkp3gYv27e4uzSL9np6emD0TqJAnFrtsMY4Zsff\u002BfUh99itMZoFV6VYstrMTAwcGe0TqIAgNYarTVWKsXSlS0\u002B/r7GhbU/efLQCEcPFnjq8Bh2GrRWaK0xxvDEZP1NaXwuElw7LyL7Evcgeorq\u002BQk\u002B\u002BHJ1x\u002B\u002BuNeHadO6NGPC\u002BDl9qXXqcoVNvJU4QteXcxVqny7DT7rrLGa2YGAYQ0C1oXQZ19dlEgSg2NhuYTqdGKdJiODCUY3w4z/hInvtHHZ47Os5LR34C5YFugvagXbs38WsatejdaoAKArQKuHuwn/dP\u002BPTLatgthNegBmoLjA\u002BmDdqHkdPJmxy1aCyfxXSsmDmWoz/4CtRvoGoQbID/MwS3Op03u1P03XMzUSCKYw\u002BN7mymc4fqJkwQWqE6haPr7ATYo5/2ZBFAM3\u002BA2vUGxx9uUpBPQgtMG/oOgZUFUeGHIZUD0nDXM9fIDD2WKBBHKpXCsiz6zGW4/l5Y3Pig2yAajECuCGOn3wbOA1XLsho9WQRgjEFrjZCWrtcdW/a/AkMnIdUPgGVZX1iW1SDpnxznonjj9dcuPVD47kHqn4Ui21PkJglGz7TtrPO8ZVln4\u002B/1DBFJi8irohor8tdFJVsXRNp/rItIVUROiMjx6PN/A\u002BOzH72MzdOgAAAAAElFTkSuQmCC",
+              "WhenOpened": "2025-10-10T11:41:46.04Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "collect_code.py",
+              "DocumentMoniker": "A:\\GarageLib\\collect_code.py",
+              "RelativeDocumentMoniker": "collect_code.py",
+              "ToolTip": "A:\\GarageLib\\collect_code.py",
+              "RelativeToolTip": "collect_code.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANASURBVEhLtZVPaBxlGMZ/s7uTNazZMW3Y/BGxRFOkWsQU3VAPxoJ6KiKIItJDwTnkomhhK\u002BRg7En3losHFwlBRDx5KGgPHhQruhKaUChaiCbWuNrGtttunN3Z\u002Bb7v9TCb7GTI6HrwgZf55nln3ud9n\u002B9jBv5PiIgV51zXlTj3L3i0Uqksxclt7CkwPz8fp/fE7Oxs4Pv\u002BlSAIXq5UKtV4HiAVJ/4LHMexS6XSPtu2P3JdtxjP808C1Wo1MaIoFAqDEZEju5J7wXVd8Tyvp5ibm9tZr62t3ZiZmVl1Xfe\u002BaL3ECXpFuVymXC6zuLg4mE6nR4DD0XwmehNF3IooisXQ7lKptItfWFhYWllZ2cUlTlAsFveMqakpbNvG0xYb9TbrN1rcbBoymQyO42TjdRInSMJtz\u002Bedcz\u002Bwvnkbr\u002BmjlUKrgOF8ljMvPP3I8vKyHX0\u002BcYL4ydmO9bpif86m/OJkp3gYv27e4uzSL9np6emD0TqJAnFrtsMY4Zsff\u002BfUh99itMZoFV6VYstrMTAwcGe0TqIAgNYarTVWKsXSlS0\u002B/r7GhbU/efLQCEcPFnjq8Bh2GrRWaK0xxvDEZP1NaXwuElw7LyL7Evcgeorq\u002BQk\u002B\u002BHJ1x\u002B\u002BuNeHadO6NGPC\u002BDl9qXXqcoVNvJU4QteXcxVqny7DT7rrLGa2YGAYQ0C1oXQZ19dlEgSg2NhuYTqdGKdJiODCUY3w4z/hInvtHHZ47Os5LR34C5YFugvagXbs38WsatejdaoAKArQKuHuwn/dP\u002BPTLatgthNegBmoLjA\u002BmDdqHkdPJmxy1aCyfxXSsmDmWoz/4CtRvoGoQbID/MwS3Op03u1P03XMzUSCKYw\u002BN7mymc4fqJkwQWqE6haPr7ATYo5/2ZBFAM3\u002BA2vUGxx9uUpBPQgtMG/oOgZUFUeGHIZUD0nDXM9fIDD2WKBBHKpXCsiz6zGW4/l5Y3Pig2yAajECuCGOn3wbOA1XLsho9WQRgjEFrjZCWrtcdW/a/AkMnIdUPgGVZX1iW1SDpnxznonjj9dcuPVD47kHqn4Ui21PkJglGz7TtrPO8ZVln4\u002B/1DBFJi8irohor8tdFJVsXRNp/rItIVUROiMjx6PN/A\u002BOzH72MzdOgAAAAAElFTkSuQmCC",
+              "WhenOpened": "2025-10-10T11:42:08.436Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "bot_code.txt",
+              "DocumentMoniker": "A:\\GarageLib\\bot_code.txt",
+              "RelativeDocumentMoniker": "bot_code.txt",
+              "ToolTip": "A:\\GarageLib\\bot_code.txt",
+              "RelativeToolTip": "bot_code.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-10-10T11:42:30.882Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "playlists.py",
+              "DocumentMoniker": "A:\\GarageLib\\handlers\\playlists.py",
+              "RelativeDocumentMoniker": "handlers\\playlists.py",
+              "ToolTip": "A:\\GarageLib\\handlers\\playlists.py",
+              "RelativeToolTip": "handlers\\playlists.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANASURBVEhLtZVPaBxlGMZ/s7uTNazZMW3Y/BGxRFOkWsQU3VAPxoJ6KiKIItJDwTnkomhhK\u002BRg7En3losHFwlBRDx5KGgPHhQruhKaUChaiCbWuNrGtttunN3Z\u002Bb7v9TCb7GTI6HrwgZf55nln3ud9n\u002B9jBv5PiIgV51zXlTj3L3i0Uqksxclt7CkwPz8fp/fE7Oxs4Pv\u002BlSAIXq5UKtV4HiAVJ/4LHMexS6XSPtu2P3JdtxjP808C1Wo1MaIoFAqDEZEju5J7wXVd8Tyvp5ibm9tZr62t3ZiZmVl1Xfe\u002BaL3ECXpFuVymXC6zuLg4mE6nR4DD0XwmehNF3IooisXQ7lKptItfWFhYWllZ2cUlTlAsFveMqakpbNvG0xYb9TbrN1rcbBoymQyO42TjdRInSMJtz\u002Bedcz\u002Bwvnkbr\u002BmjlUKrgOF8ljMvPP3I8vKyHX0\u002BcYL4ydmO9bpif86m/OJkp3gYv27e4uzSL9np6emD0TqJAnFrtsMY4Zsff\u002BfUh99itMZoFV6VYstrMTAwcGe0TqIAgNYarTVWKsXSlS0\u002B/r7GhbU/efLQCEcPFnjq8Bh2GrRWaK0xxvDEZP1NaXwuElw7LyL7Evcgeorq\u002BQk\u002B\u002BHJ1x\u002B\u002BuNeHadO6NGPC\u002BDl9qXXqcoVNvJU4QteXcxVqny7DT7rrLGa2YGAYQ0C1oXQZ19dlEgSg2NhuYTqdGKdJiODCUY3w4z/hInvtHHZ47Os5LR34C5YFugvagXbs38WsatejdaoAKArQKuHuwn/dP\u002BPTLatgthNegBmoLjA\u002BmDdqHkdPJmxy1aCyfxXSsmDmWoz/4CtRvoGoQbID/MwS3Op03u1P03XMzUSCKYw\u002BN7mymc4fqJkwQWqE6haPr7ATYo5/2ZBFAM3\u002BA2vUGxx9uUpBPQgtMG/oOgZUFUeGHIZUD0nDXM9fIDD2WKBBHKpXCsiz6zGW4/l5Y3Pig2yAajECuCGOn3wbOA1XLsho9WQRgjEFrjZCWrtcdW/a/AkMnIdUPgGVZX1iW1SDpnxznonjj9dcuPVD47kHqn4Ui21PkJglGz7TtrPO8ZVln4\u002B/1DBFJi8irohor8tdFJVsXRNp/rItIVUROiMjx6PN/A\u002BOzH72MzdOgAAAAAElFTkSuQmCC",
+              "WhenOpened": "2025-10-10T11:26:35.209Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
               "Title": "requiremets.txt",
               "DocumentMoniker": "A:\\GarageLib\\requiremets.txt",
               "RelativeDocumentMoniker": "requiremets.txt",
