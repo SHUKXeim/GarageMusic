@@ -6,6 +6,7 @@ from keyboards import track_save_menu, main_menu
 from config import STORAGE_CHAT_ID
 from db_instance import db
 import asyncio
+from utils.notify import broadcast
 
 router = Router()
 
@@ -130,14 +131,15 @@ async def save_track(callback: CallbackQuery, state: FSMContext, bot: Bot):
     # Рассылка уведомлений
     users = db.get_all_users()
     note = f"🎵 {chosen_artist_name} выложил новый трек: «{title}»"
-    for uid in users:
-        if uid == user_id:
-            continue
-        try:
-            await bot.send_message(uid, note)
-            await asyncio.sleep(0.03)
-        except Exception:
-            pass
+
+
+    # исключаем загрузившего
+    failed = await broadcast(bot, users, note, parse_mode="Markdown", exclude={user_id}, delay=0.05)
+
+    # лог — кто не получил (можно потом удалить этих юзеров из БД или пометить)
+    if failed:
+        logger = __import__("logging").getLogger(__name__)
+        logger.info("Failed sends on publish: %s", failed)
 
     await safe_edit_or_answer(callback.message, f"🌍 Трек «{title}» добавлен в общий плейлист от «{chosen_artist_name}».",
                               reply_markup=main_menu())

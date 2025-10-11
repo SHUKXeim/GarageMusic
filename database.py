@@ -45,11 +45,18 @@ class Database:
             )
         ''')
         self.cur.execute('''
-    CREATE TABLE IF NOT EXISTS bot_meta (
-        key TEXT PRIMARY KEY,
-        value TEXT
-    )
-''')
+            CREATE TABLE IF NOT EXISTS bot_meta (
+                key TEXT PRIMARY KEY,
+                value TEXT
+            )
+        ''')
+
+        self.cur.execute('''
+            CREATE TABLE IF NOT EXISTS sent_updates (
+                version TEXT PRIMARY KEY
+            )
+        ''')
+
         self.conn.commit()
 
 
@@ -82,7 +89,16 @@ class Database:
 
     def get_all_users(self):
         self.cur.execute("SELECT telegram_id FROM users")
-        return [row[0] for row in self.cur.fetchall()]
+        rows = [row[0] for row in self.cur.fetchall()]
+        # приводим к int и фильтруем None
+        clean = []
+        for r in rows:
+            try:
+                clean.append(int(r))
+            except Exception:
+                continue
+        return clean
+
 
     # artists
     def add_artist(self, user_id, name):
@@ -161,3 +177,11 @@ class Database:
         self.cur.execute("INSERT OR REPLACE INTO bot_meta (key, value) VALUES ('version', ?)", (version,))
         self.conn.commit()
 
+        # --- version updates ---
+    def has_version_been_sent(self, version: str) -> bool:
+        self.cur.execute("SELECT version FROM sent_updates WHERE version = ?", (version,))
+        return self.cur.fetchone() is not None
+
+    def mark_version_as_sent(self, version: str):
+        self.cur.execute("INSERT OR IGNORE INTO sent_updates (version) VALUES (?)", (version,))
+        self.conn.commit()
