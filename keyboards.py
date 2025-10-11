@@ -12,6 +12,7 @@ def main_menu():
 
 def track_save_menu():
     return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="✏️ Изменить метаданные", callback_data="edit_metadata")],
         [InlineKeyboardButton(text="💾 Личный каталог", callback_data="save_personal")],
         [InlineKeyboardButton(text="🌍 Общий плейлист", callback_data="save_common")],
         [InlineKeyboardButton(text="❌ Отмена", callback_data="cancel_upload")]

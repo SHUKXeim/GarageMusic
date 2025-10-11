@@ -44,7 +44,14 @@ class Database:
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         ''')
+        self.cur.execute('''
+    CREATE TABLE IF NOT EXISTS bot_meta (
+        key TEXT PRIMARY KEY,
+        value TEXT
+    )
+''')
         self.conn.commit()
+
 
     def _ensure_columns(self):
         try:
@@ -144,3 +151,13 @@ class Database:
     def add_notification(self, user_id, message):
         self.cur.execute("INSERT INTO notifications (user_id, message) VALUES (?, ?)", (user_id, message))
         self.conn.commit()
+
+    def get_bot_version(self):
+        self.cur.execute("SELECT value FROM bot_meta WHERE key = 'version'")
+        row = self.cur.fetchone()
+        return row[0] if row else None
+
+    def set_bot_version(self, version):
+        self.cur.execute("INSERT OR REPLACE INTO bot_meta (key, value) VALUES ('version', ?)", (version,))
+        self.conn.commit()
+

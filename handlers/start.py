@@ -5,6 +5,7 @@ from aiogram.filters import Command
 from keyboards import main_menu
 from db_instance import db
 from config import STORAGE_CHAT_ID
+import asyncio
 
 
 router = Router()
@@ -21,9 +22,9 @@ async def cmd_start(message: Message):
 @router.callback_query(F.data == "about_bot")
 async def about_bot(callback: CallbackQuery):
     text = (
-        "🤖 GarageLib Bot v1.1\n\n"
+        "🤖 GarageLib Bot v1.2\n\n"
         "Бот для артистов: загружай демо, управляй личным каталогом и делись треками в общем плейлисте.\n\n"
-        "Функции:\n• Личный каталог\n• Общий плейлист с карточками артистов\n• Уведомления при добавлении трека в общий плейлист\n"
+        "Функции:\n• Личный каталог\n• Общий плейлист с карточками артистов\n• Уведомления при добавлении трека в общий плейлист\n• Улучшенная версия изменения метаданных\n"
     )
     try:
         await callback.message.edit_text(text, reply_markup=main_menu())
@@ -56,6 +57,7 @@ async def play_track(callback: CallbackQuery):
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="🎧 Послушать", callback_data=f"listen_{tid}")],
         [InlineKeyboardButton(text="🗑 Удалить", callback_data=f"delete_{tid}")],
+        [InlineKeyboardButton(text="🌍 Сделать общедоступным", callback_data=f"make_public_{tid}")],
         [InlineKeyboardButton(text="⬅️ Назад", callback_data="back_main")]
     ])
 
@@ -121,3 +123,92 @@ async def delete_track(callback: CallbackQuery, bot: Bot):
         await callback.message.edit_text("🗑 Трек удалён.", reply_markup=main_menu())
     except Exception:
         await callback.message.answer("🗑 Трек удалён.", reply_markup=main_menu())
+
+@router.callback_query(F.data.startswith("make_public_"))
+async def make_public(callback: CallbackQuery, bot: Bot):
+    try:
+        tid = int(callback.data.split("_", 2)[2])
+    except Exception:
+        await callback.answer("Неверный трек.", show_alert=True)
+        return
+
+    track = db.get_track(tid)
+    if not track:
+        await callback.answer("⚠️ Трек не найден.", show_alert=True)
+        return
+
+    user_id = callback.from_user.id
+    file_id = track[5]
+    title = track[3] or "Без названия"
+    performer = track[4] or "Неизвестен"
+
+    user_artists = db.get_user_artists(user_id)
+    if not user_artists:
+        artist_id, artist_name = db.get_or_create_first_artist(user_id, performer)
+        chosen_artist_id = artist_id
+        chosen_artist_name = artist_name
+    elif len(user_artists) == 1:
+        chosen_artist_id = user_artists[0][0]
+        chosen_artist_name = user_artists[0][1]
+    else:
+        kb = InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text=a[1], callback_data=f"make_public_choose_{tid}_{a[0]}")] for a in user_artists
+        ])
+        kb.inline_keyboard.append([InlineKeyboardButton(text="❌ Отмена", callback_data="back_main")])
+        await callback.message.answer("Выбери карточку артиста:", reply_markup=kb)
+        return
+
+    await publish_track(bot, callback, tid, file_id, title, chosen_artist_name, chosen_artist_id, user_id)
+
+@router.callback_query(F.data.startswith("make_public_choose_"))
+async def make_public_choose(callback: CallbackQuery, bot: Bot):
+    try:
+        _, _, tid, artist_id = callback.data.split("_")
+        tid = int(tid)
+        artist_id = int(artist_id)
+    except Exception:
+        await callback.answer("Ошибка выбора.", show_alert=True)
+        return
+
+    track = db.get_track(tid)
+    if not track:
+        await callback.answer("⚠️ Трек не найден.", show_alert=True)
+        return
+
+    artist = db.get_artist(artist_id)
+    if not artist:
+        await callback.answer("Карточка не найдена.", show_alert=True)
+        return
+
+    await publish_track(bot, callback, tid, track[5], track[3], artist[2], artist_id, callback.from_user.id)
+
+async def publish_track(bot, callback, tid, file_id, title, artist_name, artist_id, user_id):
+    from config import STORAGE_CHAT_ID
+
+    # Отправляем в хранилище
+    storage_msg_id = None
+    try:
+        sent = await bot.send_audio(chat_id=STORAGE_CHAT_ID, audio=file_id, caption=f"{artist_name} — {title}")
+        if hasattr(sent, "audio") and getattr(sent.audio, "file_id", None):
+            file_id = sent.audio.file_id
+        storage_msg_id = sent.message_id
+    except Exception as e:
+        print(f"[make_public storage error] {e}")
+
+    # Сохраняем в БД как общий трек
+    db.add_common_track(user_id=user_id, file_id=file_id, title=title,
+                        performer=artist_name, artist_id=artist_id, storage_message_id=storage_msg_id)
+
+    # Рассылка уведомлений
+    users = db.get_all_users()
+    note = f"🎵 {artist_name} выложил новый трек: «{title}»"
+    for uid in users:
+        if uid == user_id:
+            continue
+        try:
+            await bot.send_message(uid, note)
+            await asyncio.sleep(0.03)
+        except Exception:
+            pass
+
+    await callback.message.answer(f"✅ Трек «{title}» опубликован от имени {artist_name}!", reply_markup=main_menu())
